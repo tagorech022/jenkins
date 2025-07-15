@@ -1,24 +1,25 @@
-# Stage 1: Build the app using Maven
+# Stage 1: Build the application using Maven
 FROM maven:3.9.6-eclipse-temurin-17 as builder
 
+# Set working directory inside container
 WORKDIR /app
 
-# Copy pom and source
-COPY pom.xml .
-COPY src ./src
+# Copy the entire project
+COPY . .
 
-# Build the project
+# Build the application (skip tests if desired)
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the Spring Boot app
-FROM eclipse-temurin:17-jre
+# Stage 2: Run the Spring Boot application
+FROM eclipse-temurin:17-jdk
 
+# Set working directory for the final image
 WORKDIR /app
 
-# Copy built jar from builder stage
+# Copy the executable jar from the builder stage
 COPY --from=builder /app/target/demo-workshop-2.0.2.jar app.jar
 
-# Expose port (change if needed)
+# Expose application port (optional, for documentation)
 EXPOSE 8080
 
 # Run the application
