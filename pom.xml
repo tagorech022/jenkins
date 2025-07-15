@@ -1,75 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>org.jenkins-ci.plugins</groupId>
-        <artifactId>plugin</artifactId>
-        <version>4.64</version> <!-- Latest stable plugin-pom -->
-        <relativePath/>
-    </parent>
 
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>workflow-job</artifactId>
     <version>2.44-SNAPSHOT</version>
     <packaging>hpi</packaging>
-
-    <name>Workflow Job Plugin</name>
+    <name>Pipeline: Job</name>
+    <description>Core of job orchestration and execution in Jenkins Pipeline</description>
     <url>https://github.com/jenkinsci/workflow-job-plugin</url>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://opensource.org/licenses/MIT</url>
-        </license>
-    </licenses>
 
     <properties>
-        <java.level>17</java.level>
-        <jenkins.version>2.426.1</jenkins.version> <!-- LTS version -->
-        <plugin.firstClassLoader>true</plugin.firstClassLoader>
+        <jenkins.version>2.426.1</jenkins.version>
+        <java.level>11</java.level>
+        <hpi.plugin.compatibility.version>1.666</hpi.plugin.compatibility.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <findbugs.failOnError>false</findbugs.failOnError>
     </properties>
-
-    <dependencies>
-        <!-- Required Jenkins APIs -->
-        <dependency>
-            <groupId>org.jenkins-ci.plugins.workflow</groupId>
-            <artifactId>workflow-api</artifactId>
-            <version>1200.v8005c684b_a_c6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jenkins-ci.plugins</groupId>
-            <artifactId>structs</artifactId>
-            <version>325.vcb_307d2a_2782</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jenkins-ci.plugins</groupId>
-            <artifactId>script-security</artifactId>
-            <version>1338.vf07d9ce377a_e</version>
-        </dependency>
-
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jenkins-ci.plugins.workflow</groupId>
-            <artifactId>workflow-cps</artifactId>
-            <version>3843.vd00e053a_d5f2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <repositories>
         <repository>
@@ -78,21 +26,73 @@
         </repository>
     </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/releases/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <!-- Required for script security -->
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>script-security</artifactId>
+            <version>1331.vfe130d8f1e1c</version>
+        </dependency>
+
+        <!-- Jenkins Core API -->
+        <dependency>
+            <groupId>org.jenkins-ci.main</groupId>
+            <artifactId>jenkins-core</artifactId>
+            <version>${jenkins.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Workflow API -->
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-api</artifactId>
+            <version>1294.vf2e3e54c4f6c</version>
+        </dependency>
+
+        <!-- Cps engine for testing -->
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-cps</artifactId>
+            <version>3654.v5b_4d4fca_568b</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Unit testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
-            <!-- Required for Jenkins plugin build -->
             <plugin>
                 <groupId>org.jenkins-ci.tools</groupId>
                 <artifactId>maven-hpi-plugin</artifactId>
+                <version>3.44</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <compatibleSinceVersion>${hpi.plugin.compatibility.version}</compatibleSinceVersion>
+                </configuration>
             </plugin>
 
-            <!-- Optional: SonarQube integration -->
             <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.level}</source>
+                    <target>${java.level}</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
