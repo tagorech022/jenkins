@@ -1,71 +1,62 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-         
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>io.jenkins.plugins</groupId>
-    <artifactId>plugin</artifactId>
-    <version>4.70</version>
-    <relativePath/> <!-- use the plugin BOM from repo -->
-  </parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>workflow-job</artifactId>
+    <version>2.47-SNAPSHOT</version>
+    <packaging>hpi</packaging>
+    <name>Pipeline: Job</name>
+    <description>Core of the Pipeline engine: job storage, loading, initialization, etc.</description>
+    <url>https://github.com/jenkinsci/workflow-job-plugin</url>
 
-  <groupId>org.jenkins-ci.plugins</groupId>
-  <artifactId>workflow-job</artifactId>
-  <version>2.44-SNAPSHOT</version>
-  <packaging>hpi</packaging>
+    <properties>
+        <java.level>17</java.level>
+        <jenkins.version>2.426.1</jenkins.version>
+        <plugin.parent.version>5.17</plugin.parent.version>
+    </properties>
 
-  <name>Pipeline: Job</name>
-  <description>Core of Jenkins Pipeline job support</description>
-  <url>https://github.com/jenkinsci/workflow-job-plugin</url>
+    <parent>
+        <groupId>io.jenkins.plugins</groupId>
+        <artifactId>plugin</artifactId>
+        <version>${plugin.parent.version}</version>
+        <relativePath/> <!-- Points to central plugin POM from jenkinsci -->
+    </parent>
 
-  <properties>
-    <java.level>17</java.level>
-    <jenkins.version>2.426.1</jenkins.version> <!-- Adjust as needed -->
-  </properties>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
 
-  <dependencies>
-    <!-- Required Jenkins plugins -->
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>workflow-api</artifactId>
-      <version>1294.vf2e3e54c4f6c</version>
-    </dependency>
+    <developers>
+        <developer>
+            <id>your-id</id>
+            <name>Your Name</name>
+            <email>you@example.com</email>
+        </developer>
+    </developers>
 
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>script-security</artifactId>
-      <version>1331.vfe130d8f1e1c</version>
-    </dependency>
+    <dependencies>
+        <!-- Core Jenkins API -->
+        <dependency>
+            <groupId>org.jenkins-ci.main</groupId>
+            <artifactId>jenkins-core</artifactId>
+            <version>${jenkins.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- Provided Jenkins core -->
-    <dependency>
-      <groupId>org.jenkins-ci.main</groupId>
-      <artifactId>jenkins-core</artifactId>
-      <version>${jenkins.version}</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- Optional: workflow API -->
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-api</artifactId>
+            <version>1264.v4fa_389b_2d04c</version>
+        </dependency>
 
-    <!-- JUnit for testing -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-      <!-- Optional compiler settings -->
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <release>${java.level}</release>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <!-- Add other plugin dependencies here -->
+    </dependencies>
 
 </project>
