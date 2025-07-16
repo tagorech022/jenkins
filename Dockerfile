@@ -1,12 +1,11 @@
-FROM jenkins/jenkins:lts
+# Base image with Maven and Java 17
+FROM maven:3.9.6-eclipse-temurin-17
 
-USER root
+# Set working directory
+WORKDIR /plugin
 
-# Optional: install curl if needed
-RUN apt-get update && apt-get install -y curl
+# Copy your plugin code into container
+COPY . .
 
-# Switch back to jenkins user
-USER jenkins
-
-# Install the unique-id plugin
-RUN jenkins-plugin-cli --plugins unique-id
+# Run tests using jenkins-test-harness
+CMD ["mvn", "test"]
