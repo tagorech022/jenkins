@@ -1,26 +1,12 @@
-# Stage 1: Build the application using Maven
-FROM maven:3.9.6-eclipse-temurin-17 as builder
+FROM jenkins/jenkins:lts
 
-# Set working directory inside container
-WORKDIR /app
+USER root
 
-# Copy the entire project
-COPY . .
+# Optional: install curl if needed
+RUN apt-get update && apt-get install -y curl
 
-# Build the application (skip tests if desired)
-RUN mvn clean package -DskipTests
+# Switch back to jenkins user
+USER jenkins
 
-# Stage 2: Run the Spring Boot application
-FROM eclipse-temurin:17-jdk
-
-# Set working directory for the final image
-WORKDIR /app
-
-# Copy the executable jar from the builder stage
-COPY --from=builder /app/target/demo-workshop-2.0.2.jar app.jar
-
-# Expose application port (optional, for documentation)
-EXPOSE 8080
-
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Install the unique-id plugin
+RUN jenkins-plugin-cli --plugins unique-id
